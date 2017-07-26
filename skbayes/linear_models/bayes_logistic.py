@@ -243,7 +243,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         it is used only in Hessian)
         '''
         import scipy.sparse as sparse
-        return sparse.hstack((X,np.ones([X.shape[0],1])))
+        return sparse.hstack((X,np.ones([X.shape[0],1])), format='csr')
         
     
     def _get_intercept(self,coef):
