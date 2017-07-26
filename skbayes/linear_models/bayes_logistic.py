@@ -41,7 +41,7 @@ class BayesianLogisticRegression(LinearClassifierMixin, BaseEstimator):
            self
         '''
         # preprocess data
-        X,y = check_X_y( X, y , dtype = np.float64)
+        X,y = check_X_y( X, y , dtype = np.float64, accept_sparse='csr')
         check_classification_targets(y)
         self.classes_ = np.unique(y)
         n_classes = len(self.classes_)
