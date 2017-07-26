@@ -283,7 +283,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         xw    = X.dot(w)
         s     = expit(xw)
         R     = s * (1 - s)
-        Hess  = (X.transpose()*R).dot(X)    
+        Hess  = X.T.multiply(R).dot(X)    
         Alpha = np.ones(n_features)*alpha0
         if self.fit_intercept:
             Alpha[-1] = np.finfo(np.float16).eps
