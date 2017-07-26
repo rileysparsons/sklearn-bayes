@@ -9,6 +9,7 @@ from sklearn.utils import check_X_y
 from scipy.linalg import solve_triangular
 from sklearn.linear_model.logistic import ( _logistic_loss_and_grad, _logistic_loss, 
                                             _logistic_grad_hess,)
+import scipy.sparse as sparse
 
 
 
@@ -242,7 +243,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         Adds intercept to data (intercept column is not used in lbfgs_b or newton_cg
         it is used only in Hessian)
         '''
-        import scipy.sparse as sparse
+        
         return sparse.hstack((X,np.ones([X.shape[0],1])), format='csr')
         
     
@@ -279,10 +280,10 @@ class EBLogisticRegression(BayesianLogisticRegression):
             raise NotImplementedError('Liblinear solver is not yet implemented')
             
         # calculate negative of Hessian at w
-        xw    = np.dot(X,w)
+        xw    = X.dot(w)
         s     = expit(xw)
         R     = s * (1 - s)
-        Hess  = np.dot(X.T*R,X)    
+        Hess  = (X.T*R).dot(X)    
         Alpha = np.ones(n_features)*alpha0
         if self.fit_intercept:
             Alpha[-1] = np.finfo(np.float16).eps
@@ -360,7 +361,7 @@ class VBLogisticRegression(BayesianLogisticRegression):
         '''
         eps = 1
         n_samples, n_features = X.shape
-        XY  = np.dot( X.T , (y-0.5))
+        XY  = X.transpose().dot(y-0.5)
         w0  = np.zeros(n_features)
         
         # hyperparameters of q(alpha) (approximate distribution of precision
@@ -401,7 +402,7 @@ class VBLogisticRegression(BayesianLogisticRegression):
 
     def _add_intercept(self,X):
         '''Adds intercept to data matrix'''
-        return np.hstack((np.ones([X.shape[0],1]),X))
+        return sparse.hstack((X,np.ones([X.shape[0],1])), format='csr')
         
     
     def _get_intercept(self, coef):
