@@ -213,7 +213,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         w0 = np.zeros(n_features)
         
         for i in range(self.n_iter):
-            
+            print "{0} iteration".format(str(i))
             alpha0 = alpha
             
             # find mean & covariance of Laplace approximation to posterior
