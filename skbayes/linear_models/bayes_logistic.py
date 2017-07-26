@@ -242,7 +242,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         Adds intercept to data (intercept column is not used in lbfgs_b or newton_cg
         it is used only in Hessian)
         '''
-        return np.hstack((X,np.ones([X.shape[0],1])))
+        return sparse.hstack((X,np.ones([X.shape[0],1])))
         
     
     def _get_intercept(self,coef):
