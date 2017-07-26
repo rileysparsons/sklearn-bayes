@@ -288,7 +288,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         if self.fit_intercept:
             Alpha[-1] = np.finfo(np.float16).eps
         Hess.setdiag(Hess.diagonal() + Alpha)
-        e  =  sparse.linalg.eigs(Hess)        
+        e  =  sparse.linalg.eigsh(Hess)[0]        
         return w,1./e
 
 
