@@ -419,7 +419,7 @@ class VBLogisticRegression(BayesianLogisticRegression):
         Finds gaussian approximation to posterior of coefficients using
         local variational approximation of Jaakola & Jordan
         '''
-        sigma_inv  = 2*X.T.multiply(l).dot(X)
+        sigma_inv  = 2*X.T.multiply(l).dot(X).toarray()
         alpha_vec  = np.ones(X.shape[1])*float(a) / b
         if self.fit_intercept:
             alpha_vec[0] = np.finfo(np.float16).eps
