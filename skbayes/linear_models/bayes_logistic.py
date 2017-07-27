@@ -412,7 +412,7 @@ class VBLogisticRegression(BayesianLogisticRegression):
         
     def _get_sigma(self,X):
         ''' Compute variance of predictive distribution'''
-        return np.asarray([np.squeeze(np.asarray([X.power(2).multiply(s).sum(axis=1) for s in self.sigma_]))]) 
+        return np.asarray([np.squeeze(np.asarray([X.multiply(X.dot(s)).sum(axis=1) for s in self.sigma_]))]) 
 
 
     def _posterior_dist(self,X,l,a,b,XY,full_covar = False):
