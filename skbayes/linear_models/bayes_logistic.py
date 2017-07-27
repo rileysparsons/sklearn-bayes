@@ -385,9 +385,9 @@ class VBLogisticRegression(BayesianLogisticRegression):
             # -------- update eps  ------------
             # In the M-step we update parameter eps which controls 
             # accuracy of local variational approximation to lower bound
-            XMX = np.dot(X,w)**2
-            XSX = np.sum( np.dot(X,Ri.T)**2, axis = 1)
-            eps = np.sqrt( XMX + XSX )
+            XMX = X.dot(w).power(2)
+            XSX = X.dot(Ri.T).power(2).sum(axis = 1)
+            eps = XMX.sum(XSX).sqrt()
             
             # convergence
             if np.sum(abs(w-w0) > self.tol) == 0 or i==self.n_iter-1:
