@@ -256,11 +256,7 @@ class EBLogisticRegression(BayesianLogisticRegression):
         
     def _get_sigma(self,X):
         ''' Compute variance of predictive distribution'''
-        print type(self.sigma_)
-        print self.sigma_.shape
-        print X.shape
-        
-        return np.asarray([X.power(2).multiply(s).sum(axis=1) for s in self.sigma_])
+        return np.asarray([ np.sum(X**2*s,axis = 1) for s in self.sigma_])
     
             
     def _posterior(self, X, Y, alpha0, w0):
@@ -287,12 +283,12 @@ class EBLogisticRegression(BayesianLogisticRegression):
         xw    = X.dot(w)
         s     = expit(xw)
         R     = s * (1 - s)
-        Hess  = X.T.multiply(R).dot(X)    
+        Hess  = X.T.multiply(R).dot(X).toarray()   
         Alpha = np.ones(n_features)*alpha0
         if self.fit_intercept:
             Alpha[-1] = np.finfo(np.float16).eps
-        Hess.setdiag(Hess.diagonal() + Alpha)
-        e  =  sparse.linalg.eigsh(Hess)[0]        
+        np.fill_diagonal(Hess, np.diag(Hess) + Alpha)
+        e  =  eigvalsh(Hess)      
         return w,1./e
 
 
