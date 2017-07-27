@@ -256,6 +256,10 @@ class EBLogisticRegression(BayesianLogisticRegression):
         
     def _get_sigma(self,X):
         ''' Compute variance of predictive distribution'''
+        print type(self.sigma_)
+        print self.sigma_.shape
+        print X.shape
+        
         return np.asarray([X.power(2).multiply(s).sum(axis=1) for s in self.sigma_])
     
             
