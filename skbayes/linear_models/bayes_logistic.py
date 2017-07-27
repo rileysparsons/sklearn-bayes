@@ -369,6 +369,7 @@ class VBLogisticRegression(BayesianLogisticRegression):
         b  = self.b
   
         for i in range(self.n_iter):
+            print "{0} iteration".format(str(i))
             # In the E-step we update approximation of 
             # posterior distribution q(w,alpha) = q(w)*q(alpha)
             
